@@ -36,6 +36,7 @@
       <tr>
         <th>Server name</th>
         <th>URL</th>
+        <th>Resources</th>
         <th>Last activity</th>
         <th>Actions</th>
       </tr>
@@ -58,6 +59,20 @@
           <a class="server-link {% if not spawner.ready %}hidden{% endif %}" href="{{ user.server_url(spawner.name) }}">
             {{ user.server_url(spawner.name) }}
           </a>
+        </td>
+        {#  resources #}
+        <td class="user-options">
+            {% if spawner.user_options %}
+                <div>
+                    <label>cpu&mem: </label><span> {{ spawner.user_options["resources"][0] }}</span>
+                    <label>gpu: </label><span> {{ spawner.user_options["gpu_count"][0] if spawner.user_options["gpu_type"] else "None" }}</span>
+                </div>
+                <div>
+                    <label>disk capacity: </label><span> {{ spawner.user_options["disk_capacity"][0] + "G" }}</span>
+                </div>
+            {% else %}
+                Never
+            {% endif %}
         </td>
         {# activity #}
         <td class='time-col'>
