@@ -43,7 +43,7 @@ RUN adduser --disabled-password \
     --force-badname \
     ${NB_USER}
 
-COPY requirements.txt /tmp/requirements.txt
+COPY kubernetes/hub/requirements.txt /tmp/requirements.txt
 RUN pip3 install --upgrade --no-cache-dir \
         setuptools \
         pip
@@ -54,8 +54,6 @@ RUN PYCURL_SSL_LIBRARY=openssl \
 ARG JUPYTERHUB_PATH=.
 COPY $JUPYTERHUB_PATH /tmp/jupyterhub
 RUN pip install /tmp/jupyterhub
-RUN rm -rf /tmp/jupyterhub
-
 
 # Support overriding a package or two through passed docker --build-args.
 # ARG PIP_OVERRIDES="jupyterhub==1.3.0 git+https://github.com/consideratio/kubespawner.git"
@@ -75,7 +73,7 @@ EXPOSE 8081
 # when building the dependencies image
 # add pip-tools necessary for computing dependencies
 # this is not done in production builds by chartpress
-ARG PIP_TOOLS=
+ARG PIP_TOOLS
 RUN test -z "$PIP_TOOLS" || pip install --no-cache pip-tools==$PIP_TOOLS
 
 USER ${NB_USER}
