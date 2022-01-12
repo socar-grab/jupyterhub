@@ -5,29 +5,17 @@
 
 {% block main %}
 <div class="container">
-  <div class="row">
-    <div class="text-center">
-      {% if default_server.active %}
-        <a id="stop" role="button" class="btn btn-lg btn-danger">
-          Stop My Server
-        </a>
-      {% endif %}
-      <a id="start" role="button" class="btn btn-lg btn-primary" href="{{ url }}">
-      {% if not default_server.active %}Start{% endif %}
-      My Server
-      </a>
-    </div>
-  </div>
   {% if allow_named_servers %}
   <h2>
-  Named Servers
+  서버 실행하기
   </h2>
 
-  <p>
-  In addition to your default server,
-  you may have additional {% if named_server_limit_per_user > 0 %}{{ named_server_limit_per_user }} {% endif %}server(s) with names.
-  This allows you to have more than one server running at the same time.
-  </p>
+  <pre>
+쏘카 데이터 조직에서 운영하는 Brewery입니다
+
+사용자 가이드: https://www.notion.so/socarcorp/Brewery-0bc1063859c34bcd97bf6be3d1bda2f6
+피드백 함: https://www.notion.so/socarcorp/Brewery-aa1dff943ae3425eaccdcb0b183f9cdf
+  </pre>
 
   {% set named_spawners = user.all_spawners(include_default=False)|list %}
 
@@ -64,10 +52,8 @@
         <td class="user-options">
             {% if spawner.user_options %}
                 <div>
-                    <label>cpu&mem: </label><span> {{ spawner.user_options["resources"][0] }}</span>
-                    <label>gpu: </label><span> {{ spawner.user_options["gpu_count"][0] if spawner.user_options["gpu_type"] else "None" }}</span>
-                </div>
-                <div>
+                    <label>cpu&mem: </label><span> {{ spawner.user_options["resources"][0] }}</span><br/>
+                    <label>gpu: </label><span> {{ spawner.user_options["gpu_count"][0] if spawner.user_options["gpu_type"][0] else "None" }}</span><br/>
                     <label>disk capacity: </label><span> {{ spawner.user_options["disk_capacity"][0] + "G" }}</span>
                 </div>
             {% else %}
